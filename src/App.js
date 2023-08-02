@@ -1,12 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
-import Cctv from './cctv';
+import "./App.css";
+import Cctv from "./cctv";
+import LoginForm from "./loginForm";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Routes,
+} from "react-router-dom";
 
 function App() {
+  const isLoggedIn = localStorage.getItem("authToken");
+  console.log("issloggedIn", isLoggedIn);
   return (
-   <>
-    <Cctv />
-   </>
+    <>
+      <Router>
+      <Routes>
+        <Route path="/cctv" element={!isLoggedIn ? <LoginForm /> : <Cctv />} />
+        <Route path="/" element={isLoggedIn ? <Cctv /> : <LoginForm />} />
+      </Routes>
+    </Router>
+    </>
   );
 }
 

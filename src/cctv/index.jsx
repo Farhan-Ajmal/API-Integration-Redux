@@ -59,7 +59,7 @@ export default function Cctv() {
       .then((response) => response.json())
       .then((data) => {
         setData(data.data); // Store the 'data' array in the state
-        console.log(data.data);
+        console.log("data.data", data.data);
       })
       .catch((error) => console.error("Error fetching data:", error));
   };
@@ -110,6 +110,9 @@ export default function Cctv() {
       dispatch(togglePhase(sectorPhase.phase));
     }
   };
+  const handleLogout = () => {
+    localStorage.clear()
+  }
   // const handlePhaseCheckboxChange = (event) => {
   //   const { id, checked } = event.target;
 
@@ -167,13 +170,16 @@ export default function Cctv() {
   //   }
   // };
 
-  // const filteredData = data.data.filter(
-  //   (item) =>
-  //     selectedSectors.includes(item.sector) ||
-  //     selectedPhases.includes(item.phase)
-  // );
+  const filteredData = data ? data.filter(
+    (item) =>
+      selectedSectors.includes(item.sector) ||
+      selectedPhases.includes(item.phase)
+  ): [];
   return (
     <div style={{ display: "flex" }}>
+      <button onClick={handleLogout}>
+        logout
+      </button>
       <div className="w-1/4">
         <Accordion>
           <AccordionSummary
@@ -221,13 +227,13 @@ export default function Cctv() {
         </Accordion>
       </div>
       <div className="w-full ">
-        {/* {filteredData.map((item) => (
+        {filteredData.map((item) => (
           <div key={item.id}>
             <p style={{ padding: "15px" }}>{item.category}</p>
             <p>{item.phase}</p>
             <p>{item.sector}</p>
           </div>
-        ))} */}
+        ))}
         {/* <Map /> */}
       </div>
     </div>
