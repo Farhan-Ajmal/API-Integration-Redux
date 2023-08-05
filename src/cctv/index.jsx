@@ -15,8 +15,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import cctvDataSlice, { cctvDataActions } from "../store/cctvData";
 
 export default function Cctv() {
+  // const newdata = useSelector((state) => state.cctvData.it)
+  const storedToken = localStorage.getItem("authToken");
+  console.log("storedToken in cctv=-=============-=", storedToken);
+  const navigate = useNavigate();
   const locations = [
     {
       phase: "phase - I",
@@ -58,7 +64,7 @@ export default function Cctv() {
     })
       .then((response) => response.json())
       .then((data) => {
-        setData(data.data); // Store the 'data' array in the state
+        dispatch(cctvDataActions.addCctvData(data.data)); // Store the 'data' array in the state
         console.log("data.data", data.data);
       })
       .catch((error) => console.error("Error fetching data:", error));
@@ -111,8 +117,13 @@ export default function Cctv() {
     }
   };
   const handleLogout = () => {
-    localStorage.clear()
-  }
+    // Clear the token from local storage
+    localStorage.clear();
+    const getToken = localStorage.getItem("authToken");
+    if (!getToken) {
+      navigate("/");
+    }
+  };
   // const handlePhaseCheckboxChange = (event) => {
   //   const { id, checked } = event.target;
 
@@ -170,16 +181,16 @@ export default function Cctv() {
   //   }
   // };
 
-  const filteredData = data ? data.filter(
-    (item) =>
-      selectedSectors.includes(item.sector) ||
-      selectedPhases.includes(item.phase)
-  ): [];
+  // const filteredData = data
+  //   ? data.filter(
+  //       (item) =>
+  //         selectedSectors.includes(item.sector) ||
+  //         selectedPhases.includes(item.phase)
+  //     )
+  //   : [];
   return (
     <div style={{ display: "flex" }}>
-      <button onClick={handleLogout}>
-        logout
-      </button>
+      <button onClick={handleLogout}>logout</button>
       <div className="w-1/4">
         <Accordion>
           <AccordionSummary
@@ -227,13 +238,13 @@ export default function Cctv() {
         </Accordion>
       </div>
       <div className="w-full ">
-        {filteredData.map((item) => (
+        {/* {filteredData.map((item) => (
           <div key={item.id}>
             <p style={{ padding: "15px" }}>{item.category}</p>
             <p>{item.phase}</p>
             <p>{item.sector}</p>
           </div>
-        ))}
+        ))} */}
         {/* <Map /> */}
       </div>
     </div>
