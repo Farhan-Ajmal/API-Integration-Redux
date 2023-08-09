@@ -19,7 +19,7 @@ import { useNavigate } from "react-router";
 import cctvDataSlice, { cctvDataActions } from "../store/cctvData";
 
 export default function Cctv() {
-  const newdata = useSelector((state) => state.cctvData.items)
+  const newdata = useSelector((state) => state.cctvData.items);
   const storedToken = localStorage.getItem("authToken");
   console.log("storedToken in cctv=-=============-=", storedToken);
   const navigate = useNavigate();
@@ -66,7 +66,7 @@ export default function Cctv() {
 
       if (response.ok) {
         const responseData = await response.json();
-        setData(responseData.data); // Store the 'data' array in the state
+        dispatch(cctvDataActions.addCctvData(responseData.data)); // Store the 'data' array in the state
         console.log(responseData.data);
       } else {
         throw new Error("Network response was not ok");
@@ -188,13 +188,13 @@ export default function Cctv() {
   //   }
   // };
 
-  // const filteredData = data
-  //   ? data.filter(
-  //       (item) =>
-  //         selectedSectors.includes(item.sector) ||
-  //         selectedPhases.includes(item.phase)
-  //     )
-  //   : [];
+  const filteredData = newdata
+    ? newdata.filter(
+        (item) =>
+          selectedSectors.includes(item.sector) ||
+          selectedPhases.includes(item.phase)
+      )
+    : [];
   return (
     <div style={{ display: "flex" }}>
       <button onClick={handleLogout}>logout</button>
@@ -245,13 +245,13 @@ export default function Cctv() {
         </Accordion>
       </div>
       <div className="w-full ">
-        {/* {filteredData.map((item) => (
+        {filteredData.map((item) => (
           <div key={item.id}>
             <p style={{ padding: "15px" }}>{item.category}</p>
             <p>{item.phase}</p>
             <p>{item.sector}</p>
           </div>
-        ))} */}
+        ))}
         {/* <Map /> */}
       </div>
     </div>
