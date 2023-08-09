@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import Protected from "./protected";
 import AboutUs from "./aboutUs";
+import Vehicle from "./vehicle";
 
 function App() {
   const isLoggedIn = localStorage.getItem("authToken");
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path="/cctv" element={<Protected Component={Cctv} />} />
         <Route path="/about" element={<Protected Component={AboutUs} />} />
+        <Route path="/vehicle" element={<Protected Component={Vehicle} />} />
         <Route path="/" element={<LoginForm />} />
         <Route
           path="*"
