@@ -9,6 +9,7 @@ const cctvDataSlice = createSlice({
     addCctvData(state, action) {
         const cctvData = action.payload;
         console.log("cctvData in redux",cctvData);
+        state.items.push(cctvData)
     },
     // logout(state) {
     //   state.isLoggedIn = false;

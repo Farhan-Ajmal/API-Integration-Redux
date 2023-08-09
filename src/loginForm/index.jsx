@@ -88,15 +88,11 @@ const LoginForm = () => {
         }
         const storedToken = localStorage.getItem("authToken");
         if (storedToken) {
-            // toast.success("Logged In Successfully", {
-            //   position: toast.POSITION.BOTTOM_CENTER,
-            // });
           navigate("/cctv"); // Navigate to the desired page after successful login
         } 
 
         else {
           navigate("/"); // Navigate to the desired page after successful login
-
         }
         console.log("Logged in --------");
         return authToken; // Return the token from the function

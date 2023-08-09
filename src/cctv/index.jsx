@@ -19,7 +19,7 @@ import { useNavigate } from "react-router";
 import cctvDataSlice, { cctvDataActions } from "../store/cctvData";
 
 export default function Cctv() {
-  // const newdata = useSelector((state) => state.cctvData.it)
+  const newdata = useSelector((state) => state.cctvData.items)
   const storedToken = localStorage.getItem("authToken");
   console.log("storedToken in cctv=-=============-=", storedToken);
   const navigate = useNavigate();
@@ -53,21 +53,28 @@ export default function Cctv() {
     fetchData();
   }, []);
 
-  const fetchData = () => {
-    fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${bearerToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({}),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        dispatch(cctvDataActions.addCctvData(data.data)); // Store the 'data' array in the state
-        console.log("data.data", data.data);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
+  const fetchData = async () => {
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${bearerToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        setData(responseData.data); // Store the 'data' array in the state
+        console.log(responseData.data);
+      } else {
+        throw new Error("Network response was not ok");
+      }
+    } catch (error) {
+      // Handle the error
+      console.error("Error fetching data:", error);
+    }
   };
   console.log("datadatadatadatadatadatadatadatadatadatadatadatadatadata", data);
   const dispatch = useDispatch();

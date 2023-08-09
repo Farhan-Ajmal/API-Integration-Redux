@@ -7,7 +7,7 @@ import cctvDataSlice from './cctvData';
 const store = configureStore({
   reducer: {
     cctv: cctvReducer,
-    cctvDataSlice: cctvDataSlice.reducer,
+    cctvData: cctvDataSlice.reducer,
   },
 });
 
